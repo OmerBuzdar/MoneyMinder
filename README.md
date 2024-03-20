@@ -1,6 +1,6 @@
 # MoneyMinder
 
-MoneyMinder is a simple iOS expense app that allows users to take notes of their expenses, delete and track expenses.
+MoneyMinder is a simple iOS expense tracker app that allows users to take notes of their expenses, delete and track expenses.
 
 ## Features
 
@@ -28,6 +28,7 @@ MoneyMinder is a simple iOS expense app that allows users to take notes of their
 
 - Xcode
 - Swift
+- Storyboard
 - UserDefaults - Database
 
 ## Installation
