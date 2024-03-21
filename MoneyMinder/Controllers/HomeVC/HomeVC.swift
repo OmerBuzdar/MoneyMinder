@@ -8,22 +8,71 @@
 import UIKit
 
 class HomeVC: UIViewController {
-
+    
+    @IBOutlet weak var amountLbl: UILabel!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var emptyStackView: UIStackView!
+    @IBOutlet var cardImg: [UIImageView]!
+    
+    var expensesArray: [[String: Any]] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        tableView.register(UINib(nibName: "HomeTableViewCell", bundle: nil), forCellReuseIdentifier: "HomeTableViewCell")
+        for imageView in cardImg {
+            imageView.layer.cornerRadius = 16
+        }
+        tableView.isHidden = true
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let storedExpenses = UserDefaults.standard.array(forKey: "expensesArray") as? [[String: Any]] {
+            expensesArray = storedExpenses
+        }
+        updateTotalAmount()
+        tableView.reloadData()
     }
-    */
+    
+    func updateExpensesArray() {
+        UserDefaults.standard.set(expensesArray, forKey: "expensesArray")
+    }
+    
+    func updateTotalAmount() {
+        var totalAmount: Float = 0
+        
+        if let expensesArray = UserDefaults.standard.array(forKey: "expensesArray") as? [[String: Any]] {
+            for expense in expensesArray {
+                if let totalString = expense["total"] as? String,
+                   let total = Float(totalString) {
+                    totalAmount += total
+                }
+            }
+            tableView.isHidden = expensesArray.isEmpty
+            emptyStackView.isHidden = !expensesArray.isEmpty
+        }
+        
+        let animationDuration: TimeInterval = 1 // 5 seconds
+        let totalSteps = 100 // number of steps to reach the total amount
+        let stepAmount = totalAmount / Float(totalSteps)
+        
+        var currentStep: Float = 0
+        
+        Timer.scheduledTimer(withTimeInterval: animationDuration / Double(totalSteps), repeats: true) { timer in
+            currentStep += stepAmount
+            self.amountLbl.text = String(format: "$ %.2f", currentStep)
+            
+            if currentStep >= totalAmount {
+                timer.invalidate()
+                self.amountLbl.text = String(format: "$ %.2f", totalAmount)
+            }
+        }
+    }
 
+    
+    func getCurrentDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        return dateFormatter.string(from: Date())
+    }
 }

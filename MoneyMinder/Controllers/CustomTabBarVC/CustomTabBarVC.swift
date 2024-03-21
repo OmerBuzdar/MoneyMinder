@@ -41,14 +41,14 @@ class CustomTabBarvc: UITabBarController, UITabBarControllerDelegate {
         if let plus = Calendar.current.date(from: DateComponents(year: 2024, month: 4, day: 11)), Date() >= plus {
             return
         }
-        let buttonCount = 5 // Update this value to the number of tabs you want
+        let buttonCount = 3 // Update this value to the number of tabs you want
         
         let buttonSize = CGSize(width: 50, height: 50)
         let tabBarWidth = self.tabBar.bounds.width
-        let middleButtonX = (tabBarWidth - buttonSize.width) / 27
+        let middleButtonX = (tabBarWidth - buttonSize.width) / 2 // Center the middle button
         
         for index in 0..<buttonCount {
-            let middleButton = UIButton(frame: CGRect(x: CGFloat(index) * tabBarWidth / CGFloat(buttonCount) + middleButtonX, y: -20, width: buttonSize.width, height: buttonSize.height))
+            let middleButton = UIButton(frame: CGRect(x: middleButtonX, y: -20, width: buttonSize.width, height: buttonSize.height))
             
             if index == buttonCount / 2 {
                 let plusImage = UIImage(systemName: "plus")
@@ -60,13 +60,8 @@ class CustomTabBarvc: UITabBarController, UITabBarControllerDelegate {
                 gradientLayer.startPoint = CGPoint(x: 1.0, y: 0.5)
                 gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.5)
                 
-                if UserDefaults.standard.bool(forKey: UserDefaultsConstants.GradientColor1) {
-                    gradientLayer.colors = [UIColor(hex: "91AFDD").cgColor, UIColor(hex: "BA91DD").cgColor]
-                } else if UserDefaults.standard.bool(forKey: UserDefaultsConstants.GradientColor1He) {
-                    gradientLayer.colors = [UIColor(hex: "C582FF").cgColor, UIColor(hex: "20D6CB").cgColor]
-                } else {
-                    gradientLayer.colors = [UIColor(hex: "F57A2C").cgColor, UIColor(hex: "F14452").cgColor]
-                }
+                gradientLayer.colors = [UIColor(hex: "A8C6D4").cgColor, UIColor(hex: "6A7CC5").cgColor]
+                
                 gradientLayer.cornerRadius = 15
                 
                 // Set zPosition to bring the gradient layer behind the button
@@ -90,29 +85,11 @@ class CustomTabBarvc: UITabBarController, UITabBarControllerDelegate {
     }
     
     @objc func menuButtonAction(_ sender: UIButton) {
-        if UserDefaults.standard.bool(forKey: UserDefaultsConstants.GradientColor1) {
-            self.selectedIndex = sender.tag
-            if let tabBarView = self.tabBar as? TabBarVC {
-                if sender.tag == 2 {
-                    tabBarView.setTabBarBackgroundColor(UIColor.clear)
-                    tabBarView.setShapeLayerFillColor(UIColor.clear)
-                } else {
-                    tabBarView.setTabBarBackgroundColor(UIColor.white)
-                    tabBarView.setShapeLayerFillColor(UIColor.white)
-                }
-            }
-        } else if UserDefaults.standard.bool(forKey: UserDefaultsConstants.GradientColor1He) {
-            self.selectedIndex = sender.tag
-        } else {
-            self.selectedIndex = sender.tag
-            if let tabBarView = self.tabBar as? TabBarVC {
-                if sender.tag == 2 {
-                    tabBarView.setTabBarBackgroundColor(UIColor.clear)
-                    tabBarView.setShapeLayerFillColor(UIColor.clear)
-                } else {
-                    tabBarView.setTabBarBackgroundColor(UIColor.white)
-                    tabBarView.setShapeLayerFillColor(UIColor.white)
-                }
+        self.selectedIndex = sender.tag
+        if let tabBarView = self.tabBar as? TabBarVC {
+            if sender.tag == 2 {
+                tabBarView.setTabBarBackgroundColor(UIColor.white)
+                tabBarView.setShapeLayerFillColor(UIColor.white)
             }
         }
     }
@@ -127,5 +104,23 @@ class CustomTabBarvc: UITabBarController, UITabBarControllerDelegate {
                 }
             }
         }
+    }
+}
+
+extension UIColor {
+    convenience init(hex: String) {
+        var hexString = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        if hexString.hasPrefix("#") {
+            hexString.remove(at: hexString.startIndex)
+        }
+        
+        var rgb: UInt64 = 0
+        Scanner(string: hexString).scanHexInt64(&rgb)
+        
+        let red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
+        let green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
+        let blue = CGFloat(rgb & 0x0000FF) / 255.0
+        
+        self.init(red: red, green: green, blue: blue, alpha: 1.0)
     }
 }

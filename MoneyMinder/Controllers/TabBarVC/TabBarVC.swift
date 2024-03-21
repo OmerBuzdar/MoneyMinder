@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class TabBarVC: UITabBar {
     
@@ -36,19 +37,9 @@ class TabBarVC: UITabBar {
     func updateColors() {
         if let shapeLayer = self.shapeLayer {
             if let shapeLayer = shapeLayer as? CAShapeLayer {
-                if UserDefaults.standard.bool(forKey: UserDefaultsConstants.GradientColor1) {
-                    self.unselectedItemTintColor = .gradientColor2
-                    self.tintColor = .darkGray
-                    shapeLayer.strokeColor = UIColor.lightGray.cgColor
-                } else if UserDefaults.standard.bool(forKey: UserDefaultsConstants.GradientColor1He) {
-                    self.unselectedItemTintColor = .gradientColor2He
-                    self.tintColor = .white
-                    shapeLayer.strokeColor = UIColor.lightGray.cgColor
-                } else {
-                    self.unselectedItemTintColor = .grad2ThemF57A2C
-                    self.tintColor = .darkGray
-                    shapeLayer.strokeColor = UIColor.lightGray.cgColor
-                }
+                self.unselectedItemTintColor = .black
+                self.tintColor = .darkGray
+                shapeLayer.strokeColor = UIColor.lightGray.cgColor
             }
         }
     }
