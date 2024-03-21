@@ -102,7 +102,7 @@ class StatisticsVC: UIViewController {
         
         return filteredExpenses
     }
-
+    
     
     private func updateUI(with expenses: [[String: Any]]) {
         let totalAmount = expenses.reduce(0.0) { total, expense in
@@ -113,14 +113,12 @@ class StatisticsVC: UIViewController {
             return total
         }
         
-        // Update table view
         tableView.reloadData()
         tableView.isHidden = expenses.isEmpty
         noDataFoundStackView.isHidden = !expenses.isEmpty
         
-        // Animate displaying the total amount
-        let animationDuration: TimeInterval = 1 // Animation duration in seconds
-        let totalSteps = 100 // Number of steps to reach the total amount
+        let animationDuration: TimeInterval = 1
+        let totalSteps = 100
         let stepAmount = totalAmount / Double(totalSteps)
         var currentStep: Double = 0
         

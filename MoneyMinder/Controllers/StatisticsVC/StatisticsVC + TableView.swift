@@ -51,8 +51,7 @@ extension StatisticsVC: UITableViewDelegate, UITableViewDataSource {
             
             if indexPath.row < expensesArray.count {
                 let filteredExpenses = filterExpenses(for: selectedPeriod)
-                        
-                        // Access the expense for the current row
+                
                 let currentExpense = filteredExpenses[indexPath.row]
                 let currentDate = currentExpense["date"] as? String ?? ""
                 

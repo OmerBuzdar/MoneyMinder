@@ -52,8 +52,8 @@ class HomeVC: UIViewController {
             emptyStackView.isHidden = !expensesArray.isEmpty
         }
         
-        let animationDuration: TimeInterval = 1 // 5 seconds
-        let totalSteps = 100 // number of steps to reach the total amount
+        let animationDuration: TimeInterval = 1
+        let totalSteps = 100
         let stepAmount = totalAmount / Float(totalSteps)
         
         var currentStep: Float = 0

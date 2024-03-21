@@ -52,7 +52,7 @@ class ExpensesVC: UIViewController {
         } else {
             var expenseData = [String: Any]()
             
-            expenseData["id"] = UUID().uuidString // Generate a unique ID for the expense
+            expenseData["id"] = UUID().uuidString
             expenseData["date"] = dateTF.text
             expenseData["category"] = categoryTF.text
             expenseData["description"] = descriptionTF.text
